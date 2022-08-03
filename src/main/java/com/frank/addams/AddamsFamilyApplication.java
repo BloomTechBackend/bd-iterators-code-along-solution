@@ -426,8 +426,43 @@ public class AddamsFamilyApplication {
          ********************************************************************************************/
         public void addANewAddams() {
                 // Code-Along TODO: Add code to implement this feature
-                System.out.println("\n" + "-".repeat(60) +"\n----- Sorry, this feature has not been implemented yet -----\n"
-                                        + "-".repeat(60) + "\n");
-        }
 
+                List<Person> foundAddams = null;   // Hold the Addams found by search for where to place new one
+
+                System.out.print("\nIn the next prompt, enter the name of the existing Addams you would like to insert before... ");
+                // Determine which element we want the new one to be inserted before
+                AddamsSearchCriteria whatTheyWant = solicitAddamsSearchCriteria();
+
+                // Determine which element we want the new one to be inserted before
+                foundAddams = findAnAddamsByName(whatTheyWant.getSearchValue(), whatTheyWant.isCaseSensitiveSearch());
+
+                if (foundAddams.size() == 0) {
+                    System.out.println(Emogis.COFFIN.repeat(30));
+                    System.out.println(whatTheyWant.getSearchValue() + " not found");
+                    System.out.println(Emogis.COFFIN.repeat(30));
+                    return;
+                }
+                // If we found an Addams to be inserted before
+                // Get the data for the new element
+                System.out.println("What is the name of the new Addams family member?");
+                // Get user input and strip leading/training spaces
+                String newName = userKeyboardDevice.nextLine().strip();
+
+                // Define a ListIterator to be used to position at the Addams to insert before
+                ListIterator<Person> anotherIterator = theAddamsFamily.listIterator();
+
+                // Position to element in the list to insert before
+                while (anotherIterator.hasNext()) {                // Loop while the Iterator has elements
+                       Person anAddams = anotherIterator.next();   // Retrieve the next element from the Iterator
+                       // Did we the find the Addams we want?
+                       //  name-in-the-list    ==      name-to-insert-before
+                       if (anAddams.getName().equals(foundAddams.get(0).getName())) {
+                          // Yes - Add new element to the list
+                          anotherIterator.previous();               // Go back one element so we can add before the one found
+                          anotherIterator.add(new Person(newName)); // Add the new Person to the List using the Iterator
+                          break;  // to avoid a never ending loop because we backed up an element
+                                  //    besides, we are done processing
+                       } // End of if
+                 }  // End of while
+        }  // End of addNewAddams() helper method
 } // End of ApplicationProgram class
