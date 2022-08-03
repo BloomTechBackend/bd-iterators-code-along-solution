@@ -431,11 +431,13 @@ public class AddamsFamilyApplication {
 
                 System.out.print("\nIn the next prompt, enter the name of the existing Addams you would like to insert before... ");
                 // Determine which element we want the new one to be inserted before
+                // the solicitAddamsSearchCriteria() method will ask the user for the search value
+                //     and whether the search shoudl be case-sensitive
                 AddamsSearchCriteria whatTheyWant = solicitAddamsSearchCriteria();
-
-                // Determine which element we want the new one to be inserted before
+                // Look for the Addams to insert before in the List data store
                 foundAddams = findAnAddamsByName(whatTheyWant.getSearchValue(), whatTheyWant.isCaseSensitiveSearch());
 
+                // If we did not find teh Addams they want to search before, issue a message and return
                 if (foundAddams.size() == 0) {
                     System.out.println(Emogis.COFFIN.repeat(30));
                     System.out.println(whatTheyWant.getSearchValue() + " not found");
